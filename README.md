@@ -32,10 +32,10 @@ If you don't have compose install, see [how to install and use composer](https:/
 
 ```php
 
-use Dubizzle;
+use Dubizzle\Search;
 
 $params = ["country"=>'uae', "city"=>"dubai", "section"=>"motor"];
-$uea = new Dubizzle\Search($params);
+$uea = new Search($params);
 $query = $uea->search();
 $query->fetch();
 
@@ -67,37 +67,41 @@ var_dump($results);
 ```
 
 
-# Find average price of year 2007 and above Nissan Altimas in Dubai
-import dubizzle
+## Example
 
-results = dubizzle.search(keyword='altima', country='uae', city='dubai', section='motors',
-                          category='cars', make='nissan', min_year=2007, num_results='all')
+Find average price of year 2007 and above Nissan Altimas in Dubai
 
-total_price, result_count = 0, len(results)
+```php
+require_once "../vendor/autoload.php";
 
-for result in results:
-    total_price += result['price']
+use Dubizzle\Search;
 
-print float(total_price) / result_count # Prints 39239.94
-```
+$params = [
+    "keyword"=>'altima',
+    "country"=>'uae',
+    "city"=>'dubai',
+    "section"=>'motors',
+    "category"=>'cars',
+    "make"=>'nissan',
+    "min_year"=>2007,
+    "num_results"=>'all'];
 
-```python
-# Use the above results to find distribution of post-2007 Altima colors
-from collections import Counter
+$uae = new Search($params);
 
-colors = [result['features']['color'] for result in results]
-distribution = Counter(colors)
+$query = $uae->search();
+$query->fetch();
+$results = $query->get_results();
 
-print distribution['white'] # Prints 52
-```
+$result_count = count($results);
+$total_price = 0;
+foreach($results as $result){
+    $total_price += $result["price"];
+}
 
-```python
-# Retrieve a single listing from Dubizzle UAE
-import dubizzle
-
-listing = dubizzle.listing('http://dubai.dubizzle.com/motors/used-cars/nissan/tiida/2013/9/25/easy-installment-new-and-used-cars-0563276-2/', country='uae')
-
-print listing
+echo "Num. Results:   ".$result_count;
+echo "<br/>";
+echo "<br/>";
+echo "Average price:  ".(intval($total_price / $result_count)); # Prints 39239.94
 ```
 
 ## Search Parameters
