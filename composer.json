@@ -3,7 +3,7 @@
     "type": "library",
     "description": "Dubizzle for PHP",
     "keywords": ["dubizzle","screen scraper","php"],
-    "homepage": "https://github.com/b4oshany/dubizzle-php",
+    "homepage": "https://github.com/Osoobe/dubizzle-php",
     "license": "MIT",
     "authors": [
         {

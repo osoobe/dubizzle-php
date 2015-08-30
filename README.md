@@ -67,10 +67,12 @@ var_dump($results);
 ]
 ```
 
+See [Demo 1](http://www.osoobe.com/devlabs/php/demo/dubizzle-php/demo/demo.php) for data output.
+
 
 ## Example
 
-Find average price of year 2007 and above Nissan Altimas in Dubai
+Find average price of year 2007 and above Nissan Altimas in Dubai ([Live Demo](http://www.osoobe.com/devlabs/php/demo/dubizzle-php/demo/demo2.php))
 
 ```php
 require_once "../vendor/autoload.php";
