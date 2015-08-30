@@ -15,6 +15,7 @@ Another thing to point out is that the main focus for the time being is on Dubiz
 
 * [php-html-parse](https://github.com/paquettg/php-html-parser)
 * [php-curl-class](https://github.com/php-curl-class/php-curl-class)
+* [tidy extension for PHP](http://php.net/manual/en/book.tidy.php)
 * PHP 5.3 or greater
 
 ## Installation
