@@ -2,19 +2,14 @@
     "name": "osoobe/dubizzle",
     "type": "library",
     "description": "Dubizzle for PHP",
-    "keywords": ["forms","wtforms","php"],
+    "keywords": ["dubizzle","screen scraper","php"],
     "homepage": "https://github.com/b4oshany/dubizzle-php",
-    "license": "LGPLv2",
+    "license": "MIT",
     "authors": [
-        {
-            "name": "José Manuel Peso",
-            "homepage": "https://github.com/trilopin/",
-            "role": "Creator"
-        },
         {
             "name": "Oshane Bailey",
             "homepage": "https://github.com/b4oshany/",
-            "role": "Developer"
+            "role": "Creator"
         }
     ],
     "require": {
