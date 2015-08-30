@@ -45,7 +45,7 @@ class Results{
      * This is mainly used to capture other items that is not on the initial
      * result page.
      * @param  string $html HTML string.
-     * @return array    List of items that was found on the current html page.
+     * @return PHPHtmlParser\Dom[] - List of items that was found on the current html page.
      */
     public static function get_more_results($html){
         # Initialize a HTML cleaner object.
@@ -76,10 +76,10 @@ class Results{
 
     /**
      * Convert HTML elements for each item into qualitative data.
-     * @param  array $items List of items (Elements).
+     * @param  PHPHtmlParser\Dom[] $items List of items (Elements).
      * @return array List of associated array for item information for a specifc page.
      */
-    private static function parse_items(array $items){
+    private static function parse_items($items){
         $results = [];
         foreach($items as $item){
             $title = $item->find('.title a')[0];
@@ -91,7 +91,16 @@ class Results{
                     "location" => $item->find('.location')[0]->text
                 ];
 
-                $item_data["price"] = $item->find('.price')[0]->text;
+                $price = trim($item->find('.price')[0]->text);
+
+                $m = explode(" ", $price);
+                if(count($m) > 1){
+                    $item_data["price"] = intval(str_replace(",", "", $m[1]));
+                    $item_data["currency"] = $m[0];
+                }else{
+                    $item_data["price"] = 0;
+                    $item_data["currency"] = "UNKNOWN";
+                }
 
                 try{
                     $category = $item->find('.description .breadcrumbs')[0];

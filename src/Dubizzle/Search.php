@@ -75,6 +75,6 @@ class Search{
 
 }
 
-UAE::$uae = $uae;
+SEARCH::$uae = $uae;
 
 ?>

@@ -3,7 +3,6 @@
 require_once "../vendor/autoload.php";
 
 use Dubizzle\Search;
-use Dubizzle\Results;
 
 ?>
 
@@ -13,7 +12,7 @@ use Dubizzle\Results;
     <label style="display: inline-block; width: 100px">City:</label>
     <select name="city">
         <?php
-        foreach(UAE::$uae["cities"]["options"] as $key => $value){
+        foreach(Search::$uae["cities"]["options"] as $key => $value){
             ?>
         <option value="<?php echo $key; ?>"><?php echo $key; ?></option>
         <?php
@@ -27,7 +26,7 @@ use Dubizzle\Results;
     <label style="display: inline-block; width: 100px">Section:</label>
     <select name="section">
         <?php
-        foreach(UAE::$uae["sections"]["options"] as $key => $value){
+        foreach(Search::$uae["sections"]["options"] as $key => $value){
             ?>
         <option value="<?php echo $key; ?>"><?php echo $key; ?></option>
         <?php
@@ -81,6 +80,9 @@ if(isset($_GET["city"]) && isset($_GET["section"]) && isset($_GET["format"]) ){
             <p>
                 <label style="display: inline-block; width: 100px">Price:</label>
                 <?php echo $item["price"]; ?></p>
+            <p>
+                <label style="display: inline-block; width: 100px">Currency:</label>
+                <?php echo $item["currency"]; ?></p>
             <hr/>
             <hr/>
             <?php
