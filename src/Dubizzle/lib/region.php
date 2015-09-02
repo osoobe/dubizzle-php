@@ -171,6 +171,10 @@ $uae = [
         ],
     ],
 
+    'models' => [
+        'code' => "c2"
+    ],
+
     'motors_options' => [
         'transmission' => [
             'all' => '',
