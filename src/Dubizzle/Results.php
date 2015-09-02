@@ -113,6 +113,20 @@ class Results{
                     $item_data["category"] = "";
                 }
 
+                $photo_block = $item->find(".thumb div");
+                if(!empty($photo_block)){
+                    $style = $photo_block->getAttribute("style");
+                    preg_match("/http.*\.\w*/", $style, $result);
+                    if(!empty($result)){
+                        $item_data["photo"] = $result[0];
+                    }else{
+                        $item_data["photo"] = "";
+                    }
+                }else{
+                    $item_data["photo"] = "";
+                }
+
+
                 array_push($results, $item_data);
             }catch(Exception $e){
                 continue;
@@ -142,7 +156,11 @@ class Results{
         try{
             $last_page_query = $this->dom->find('.paging_forward #last_page')->getAttribute("href");
             preg_match("/page=(\d+)/", $last_page_query, $num_pages_query);
-            $this->num_pages = intval(explode("=", $num_pages_query[0])[1]);
+            if(isset($num_pages_query[0][1])){
+                $this->num_pages = intval(explode("=", $num_pages_query[0])[1]);
+            }else{
+                $this->num_pages = 1;
+            }
         }catch(Exception $e){
             $this->num_pages = 1;
         }
@@ -153,14 +171,18 @@ class Results{
             $this->num_results = $this->total_results;
         }
 
-        $page_needed = intval($this->num_results / $num_results_on_page);
-        $page_urls = [$this->url];
-        $pages = $this->dom->find(".pages .page-links");
-        for($i = 0; $i < $page_needed; $i++){
-            array_push($page_urls, $this->url."".$pages[$i]->getAttribute("href"));
+        if($num_results_on_page > 0){
+            $page_needed = intval($this->num_results / $num_results_on_page );
+        }else{
+            $page_needed = 0;
         }
-        # Fetch additional pages.
-        $this->getOtherPages($page_urls);
+            $page_urls = [$this->url];
+            $pages = $this->dom->find(".pages .page-links");
+            for($i = 0; $i < $page_needed; $i++){
+                array_push($page_urls, $this->url."".$pages[$i]->getAttribute("href"));
+            }
+            # Fetch additional pages.
+            //$this->getOtherPages($page_urls);
     }
 
 
