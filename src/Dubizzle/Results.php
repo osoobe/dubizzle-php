@@ -176,13 +176,18 @@ class Results{
         }else{
             $page_needed = 0;
         }
-            $page_urls = [$this->url];
-            $pages = $this->dom->find(".pages .page-links");
-            for($i = 0; $i < $page_needed; $i++){
-                array_push($page_urls, $this->url."".$pages[$i]->getAttribute("href"));
-            }
-            # Fetch additional pages.
-            //$this->getOtherPages($page_urls);
+
+        $page_urls = [];
+        $base_url = preg_replace("/page=(\d+)/", "", $last_page_query);
+        for($i = 2; $i <= $page_needed; $i++){
+            array_push($page_urls, $this->url.$base_url."&page=$i");
+        }
+
+        # Fetch additional pages.
+        $this->getOtherPages($page_urls);
+
+        $first_page = preg_replace("/page=(\d+)/", "page=1", $last_page_query);
+        array_unshift($page_urls, $first_page);
     }
 
 

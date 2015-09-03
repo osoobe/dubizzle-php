@@ -10,7 +10,7 @@ class Search{
      * @param array $args=[]  Parameters for the search.
      * @param int $num_results=50 number of results to show.
      */
-    public function __construct(array $args=[], $num_results=50){
+    public function __construct(array $args=[], $num_results=30){
         # General parameters
         $keyword = get_arg($args, 'keyword', '');
         $city = get_arg($args, 'city', 'all');
@@ -78,7 +78,7 @@ class Search{
             'Description' => 'https://github.com/Cyph0n/dubizzle'
         ];
         $curl = curl_query(Category::$uae['base_url'], $this->params, $headers);
-        return new Results($curl->response, $this->num_results, Category::$uae['base_url'], true);
+        return new Results($curl->response, $this->num_results, $this->query_url(), true);
     }
 
 }

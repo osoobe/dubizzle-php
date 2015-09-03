@@ -14,7 +14,7 @@ $params = [
     "min_year"=>2007,
     "num_results"=>'all'];
 
-$uae = new Search($params);
+$uae = new Search($params, 50);
 
 $query = $uae->search();
 $query->fetch();
