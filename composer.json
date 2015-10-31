@@ -14,9 +14,9 @@
     ],
     "require": {
         "php": ">=5.3.0",
-        "ext-tidy": "*",
         "paquettg/php-html-parser": "1.6.4",
-        "php-curl-class/php-curl-class": "^4.6"
+        "php-curl-class/php-curl-class": "^4.6",
+        "ezyang/htmlpurifier": "^4.7"
     },
     "autoload": {
         "psr-4": {"Dubizzle\\": "src/Dubizzle"}

@@ -3,6 +3,7 @@
 namespace Dubizzle;
 
 use PHPHtmlParser\Dom;
+use HTMLPurifier;
 use Curl\MultiCurl;
 
 class Results{
@@ -18,22 +19,13 @@ class Results{
      * @param sting $url          Base url of the search result page.
      */
     public function __construct($html, $num_results, $url){
-        # Initialize a HTML cleaner object.
-        $tidy = new \tidy;
-        $config = array(
-                   'indent'         => true,
-                   'output-xhtml'   => true,
-                   'wrap'           => 200);
-        # Fix HTML errors.
-        $tidy->parseString($html, $config, 'utf8');
-        $tidy->cleanRepair();
-
-        # Get the clean HTML string.
-        $tidyHTML = tidy_get_output($tidy);
+        # Clean HTML.
+        $purifier = new HTMLPurifier();
+        $clean_html = $purifier->purify($html);
 
         # Build a HTML parser to search for items.
         $this->dom = new Dom;
-        $this->dom->load($tidyHTML);
+        $this->dom->load($clean_html);
 
         $this->num_results = $num_results;
         $this->url = $url;
@@ -48,23 +40,13 @@ class Results{
      * @return PHPHtmlParser\Dom[] - List of items that was found on the current html page.
      */
     public static function get_more_results($html){
-        # Initialize a HTML cleaner object.
-        $tidy = new \tidy;
-        // Specify configuration
-        $config = array(
-                   'indent'         => true,
-                   'output-xhtml'   => true,
-                   'wrap'           => 200);
-        # Fix HTML errors.
-        $tidy->parseString($html, $config, 'utf8');
-        $tidy->cleanRepair();
-
-        # Get the clean HTML string.
-        $tidyHTML = tidy_get_output($tidy);
+        # Clean HTML.
+        $purifier = new HTMLPurifier();
+        $clean_html = $purifier->purify($html);
 
         # Build a HTML parser to search for items.
-        $dom = new Dom;
-        $dom->load($tidyHTML);
+        $this->dom = new Dom;
+        $this->dom->load($clean_html);
 
         # Get result items from the HTML.
         $items = $dom->find(".listing-item");

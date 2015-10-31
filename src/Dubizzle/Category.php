@@ -3,6 +3,7 @@
 namespace Dubizzle;
 
 use PHPHtmlParser\Dom;
+use HTMLPurifier;
 
 require_once 'lib/util.php';
 require_once 'lib/region.php';
@@ -23,23 +24,13 @@ class Category{
     }
 
     private function parseHTML(){
-        $html = $this->data["form_html"];
-        # Initialize a HTML cleaner object.
-        $tidy = new \tidy;
-        $config = array(
-                   'indent'         => true,
-                   'output-xhtml'   => true,
-                   'wrap'           => 200);
-        # Fix HTML errors.
-        $tidy->parseString($html, $config, 'utf8');
-        $tidy->cleanRepair();
-
-        # Get the clean HTML string.
-        $tidyHTML = tidy_get_output($tidy);
+        # Clean HTML.
+        $purifier = new HTMLPurifier();
+        $clean_html = $purifier->purify($html);
 
         # Build a HTML parser to search for items.
         $this->dom = new Dom;
-        $this->dom->load($tidyHTML);
+        $this->dom->load($clean_html);
     }
 
     private function get_body_type(){
