@@ -5,6 +5,7 @@ namespace Dubizzle;
 require_once 'lib/util.php';
 
 class Search{
+
     /**
      * Build search
      * @param array $args=[]  Parameters for the search.
@@ -18,7 +19,7 @@ class Search{
         $category = get_arg($args, 'category', 'all');
         $min_price = get_arg($args, 'min_price', '');
         $max_price = get_arg($args, 'max_price', '');
-        $added_days = get_arg($args, 'added_days', 30);
+        $added_days = get_arg($args, 'added_days', '');
 
         # Motors only
         $make = get_arg($args, 'make', 'all');
