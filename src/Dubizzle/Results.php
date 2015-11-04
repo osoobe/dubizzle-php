@@ -65,6 +65,9 @@ class Results{
         $results = [];
         foreach($items as $item){
             $title = $item->find('.title a')[0];
+            if(empty($title)){
+                $title = $item->find('.featured-ad-title a')[0];
+            }
             try{
                 $item_data = [
                     "title" => $title->text,
@@ -128,10 +131,18 @@ class Results{
 
         # Get all the cars on a single result page.
         $items = $this->dom->find(".listing-item");
-        if(empty($items)){
+        if(!empty($items)){
+            $this->results = static::parse_items($items);
+        }
+        $featured_items = $this->dom->find(".featured-item");
+        if(!empty($featured_items)){
+            $this->results = array_merge($this->results,
+                                         static::parse_items($featured_items));
+        }
+        if(empty($this->results)){
             return [];
         }
-        $this->results = static::parse_items($items);
+
         $num_results_on_page = count($items);
 
         # Get the total number of pages.

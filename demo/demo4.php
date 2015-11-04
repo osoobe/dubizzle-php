@@ -5,16 +5,17 @@ require_once "../vendor/autoload.php";
 use Dubizzle\Search;
 
 $params = array(
-"country" => 'all',
+"country" => 'uae',
 "city" => 'all',
 "section" => 'motors',
 "category" => 'cars',
-"make" => 'audi',
-"model" => '1187', //A4
-"body_type"=>'348', //Sedan
-"min_year" => '2005',
-"max_year" => '2005',
-"num_results" => 'all');
+"make" => 'chevrolet',
+"model" => '1239', //Corvette
+"body_type"=>'347', //Coupe
+"min_year" => '2011',
+"max_year" => '2011',
+"num_results" => '100',
+"added_days"=>'');
 
 $uae = new Search($params, 50);
 echo $uae->query_url();
