@@ -149,7 +149,13 @@ class Results{
         # Get the total number of pages.
         $last_page_query = $this->dom->find('.paging_forward #last_page')->getAttribute("href");
         if(empty($last_page_query)){
-            $last_page_query = $this->dom->find('.paging_forward a')[1]->getAttribute("href");
+            $this->dom->find('.paging_forward a')->outerHtml;
+            $anchors = $this->dom->find('.paging_forward a');
+            if(isset($anchors[1])){
+                $last_page_query = $anchors[1]->getAttribute("href");
+            }else{
+                $last_page_query = "";
+            }
         }
 
         preg_match("/page=(\d+)/", $last_page_query, $num_pages_query);
