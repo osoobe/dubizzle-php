@@ -107,6 +107,29 @@ echo "<br/>";
 echo "Average price:  ".(intval($total_price / $result_count)); # Prints 39239.94
 ```
 
+## Other Examples
+
+Get the list of makes from [Dubizzle] ([Live Demo](http://www.osoobe.com/devlabs/php/demo/dubizzle-php/demo/get_makes.php)):
+```php
+
+use Dubizzle\Category;
+
+$category = new Category();
+$makes = $category->get_makes(Category::$uae["categories"]["options"]['cars']);
+```
+
+
+Get the list of models from [Dubizzle] ([Live Demo](http://www.osoobe.com/devlabs/php/demo/dubizzle-php/demo/get_models.php)):
+```php
+
+use Dubizzle\Category;
+
+$category = new Category();
+$mmodels = $category->get_models(Category::$uae["makes"]["options"]['audi']);
+```
+
+
+
 ## Search Parameters
 
 ### General

@@ -14,7 +14,7 @@ $params = [
     "min_year"=>2007,
     "num_results"=>'all'];
 
-$uae = new Search($params, 50);
+$uae = new Search($params, 120);
 
 $query = $uae->search();
 $query->fetch();
@@ -26,6 +26,9 @@ foreach($results as $result){
     $total_price += $result["price"];
 }
 
+echo "URL:            ".$uae->query_url();
+echo "<br/>";
+echo "<br/>";
 echo "Num. Results:   ".$result_count;
 echo "<br/>";
 echo "<br/>";

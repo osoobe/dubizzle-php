@@ -45,8 +45,8 @@ class Results{
         $clean_html = $purifier->purify($html);
 
         # Build a HTML parser to search for items.
-        $this->dom = new Dom;
-        $this->dom->load($clean_html);
+        $dom = new Dom;
+        $dom->load($clean_html);
 
         # Get result items from the HTML.
         $items = $dom->find(".listing-item");
@@ -125,7 +125,7 @@ class Results{
      * This function also parse the initial result page and fetch additional
      * pages to build the list of associated arrary for item information.
      */
-    public function fetch(){
+    public function fetch($start_page = 2){
         # Track time;
         $this->time = time();
 
@@ -145,16 +145,17 @@ class Results{
 
         $num_results_on_page = count($items);
 
+
         # Get the total number of pages.
-        try{
-            $last_page_query = $this->dom->find('.paging_forward #last_page')->getAttribute("href");
-            preg_match("/page=(\d+)/", $last_page_query, $num_pages_query);
-            if(isset($num_pages_query[0][1])){
-                $this->num_pages = intval(explode("=", $num_pages_query[0])[1]);
-            }else{
-                $this->num_pages = 1;
-            }
-        }catch(Exception $e){
+        $last_page_query = $this->dom->find('.paging_forward #last_page')->getAttribute("href");
+        if(empty($last_page_query)){
+            $last_page_query = $this->dom->find('.paging_forward a')[1]->getAttribute("href");
+        }
+
+        preg_match("/page=(\d+)/", $last_page_query, $num_pages_query);
+        if(isset($num_pages_query[0][1])){
+            $this->num_pages = intval(explode("=", $num_pages_query[0])[1]);
+        }else{
             $this->num_pages = 1;
         }
 
@@ -163,7 +164,6 @@ class Results{
         if($this->num_results > $this->total_results || $this->num_results == "all"){
             $this->num_results = $this->total_results;
         }
-
         if($num_results_on_page > 0){
             $page_needed = intval($this->num_results / $num_results_on_page );
         }else{
@@ -172,8 +172,8 @@ class Results{
 
         $page_urls = [];
         $base_url = preg_replace("/page=(\d+)/", "", $last_page_query);
-        for($i = 2; $i <= $page_needed; $i++){
-            array_push($page_urls, $this->url.$base_url."&page=$i");
+        for($i = $start_page; $i <= $page_needed && $i <= $this->num_pages; $i++){
+            array_push($page_urls, $this->url."&page=$i");
         }
 
         # Fetch additional pages.
