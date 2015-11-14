@@ -125,7 +125,7 @@ Get the list of models from [Dubizzle] ([Live Demo](http://www.osoobe.com/devlab
 use Dubizzle\Category;
 
 $category = new Category();
-$mmodels = $category->get_models(Category::$uae["makes"]["options"]['audi']);
+$models = $category->get_models(Category::$uae["makes"]["options"]['audi']);
 ```
 
 
