@@ -15,12 +15,19 @@ class Category{
 
 
 
-    public function get_models($key = null){
-        $model_url = "https://dubai.dubizzle.com/classified/get_category_models/"
-                    .$key."/";
+    public function get_models($key){
+        $model_url = "https://dubai.dubizzle.com/classified/get_category_models/$key/";
         $data = $this->get_data($model_url, ["site" => 2, "s" => "MT"]);
         $this->parseJSON($data);
         return $this->models;
+    }
+
+    public function get_makes($key = 140){
+        $make_url = "https://dubai.dubizzle.com/classified/get_category_models/$key/";
+        $data = $this->get_data($make_url, ["sitre" => 2, "s" => "MT"]);
+        $this->parseJSON($data);
+        return $this->models;
+
     }
 
     private function parseHTML(){
