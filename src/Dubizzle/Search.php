@@ -38,11 +38,36 @@ class Search{
         $body_type = get_arg($args, "body_type", null);
         $model = get_arg($args, "model", null);
 
+        if(in_array(Category::$uae['makes']['options'], $make)){
+            $make = Category::$uae['makes']['options'][$make];
+        }
+        if(in_array(Category::$uae['cities']['options'], $city)){
+            $city = Category::$uae['cities']['options'][$city];
+        }
+        if(in_array(Category::$uae['sections']['options'], $section)){
+            $section = Category::$uae['sections']['options'][$section];
+        }
+        if(in_array(Category::$uae['categories']['options'], $category)){
+            $category = Category::$uae['categories']['options'][$category];
+        }
+        if(in_array(Category::$uae['motors_options']['seller'], $seller)){
+            $seller = Category::$uae['motors_options']['seller'][$seller];
+        }
+        if(in_array(Category::$uae['motors_options']['fuel'], $fuel)){
+            $fuel = Category::$uae['motors_options']['fuel'][$fuel];
+        }
+        if(in_array(Category::$uae['motors_options']['cylinders'], $cylinders)){
+            $cylinders = Category::$uae['motors_options']['seller'][$cylinders];
+        }
+        if(in_array(Category::$uae['motors_options']['transmission'], $transmission)){
+            $transmission = Category::$uae['motors_options']['transmission'][$transmission];
+        }
+
         $this->params = [
-            Category::$uae['cities']['code'] => Category::$uae['cities']['options'][$city],
-            Category::$uae['sections']['code'] => Category::$uae['sections']['options'][$section],
-            Category::$uae['categories']['code'] => Category::$uae['categories']['options'][$category],
-            Category::$uae['makes']['code'] => Category::$uae['makes']['options'][$make],
+            Category::$uae['cities']['code'] => $city,
+            Category::$uae['sections']['code'] => $section,
+            Category::$uae['categories']['code'] => $category,
+            Category::$uae['makes']['code'] => $make,
             'keywords' => $keyword,
             'price__gte' => $min_price,
             'price__lte' => $max_price,
@@ -51,10 +76,10 @@ class Search{
             'year__lte' => $max_year,
             'kilometers__gte' => $min_kms,
             'kilometers__lte' => $max_kms,
-            'seller_type' => Category::$uae['motors_options']['seller'][$seller],
-            'fuel_type' => Category::$uae['motors_options']['fuel'][$fuel],
-            'no._of_cylinders' => Category::$uae['motors_options']['cylinders'][$cylinders],
-            'transmission_type' => Category::$uae['motors_options']['transmission'][$transmission]
+            'seller_type' => $seller,
+            'fuel_type' => $fuel,
+            'no._of_cylinders' => $cylinders,
+            'transmission_type' => $transmission
         ];
 
         if($body_type != null){
