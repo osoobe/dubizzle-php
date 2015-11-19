@@ -44,7 +44,7 @@ class Search{
         if(isset(Category::$uae['cities']['options'][$city])){
             $city = Category::$uae['cities']['options'][$city];
         }
-        if(isset(Category::$uae['sections']['options'][$section)){
+        if(isset(Category::$uae['sections']['options'][$section])){
             $section = Category::$uae['sections']['options'][$section];
         }
         if(isset(Category::$uae['categories']['options'][$category])){
