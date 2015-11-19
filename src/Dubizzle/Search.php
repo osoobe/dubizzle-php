@@ -38,7 +38,7 @@ class Search{
         $body_type = get_arg($args, "body_type", null);
         $model = get_arg($args, "model", null);
 
-        if(isset($make, Category::$uae['makes']['options'])){
+        if(isset(Category::$uae['makes']['options'][$make])){
             $make = Category::$uae['makes']['options'][$make];
         }
         if(isset(Category::$uae['cities']['options'][$city])){
