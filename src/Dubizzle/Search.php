@@ -38,28 +38,28 @@ class Search{
         $body_type = get_arg($args, "body_type", null);
         $model = get_arg($args, "model", null);
 
-        if(in_array($make, Category::$uae['makes']['options'])){
+        if(isset($make, Category::$uae['makes']['options'])){
             $make = Category::$uae['makes']['options'][$make];
         }
-        if(in_array($city, Category::$uae['cities']['options'])){
+        if(isset(Category::$uae['cities']['options'][$city])){
             $city = Category::$uae['cities']['options'][$city];
         }
-        if(in_array($section, Category::$uae['sections']['options'])){
+        if(isset(Category::$uae['sections']['options'][$section)){
             $section = Category::$uae['sections']['options'][$section];
         }
-        if(in_array($category, Category::$uae['categories']['options'])){
+        if(isset(Category::$uae['categories']['options'][$category])){
             $category = Category::$uae['categories']['options'][$category];
         }
-        if(in_array($seller, Category::$uae['motors_options']['seller'])){
+        if(isset(Category::$uae['motors_options']['seller'][$seller])){
             $seller = Category::$uae['motors_options']['seller'][$seller];
         }
-        if(in_array($fuel, Category::$uae['motors_options']['fuel'])){
+        if(isset(Category::$uae['motors_options']['fuel'][$fuel])){
             $fuel = Category::$uae['motors_options']['fuel'][$fuel];
         }
-        if(in_array($cylinders, Category::$uae['motors_options']['cylinders'])){
+        if(isset(Category::$uae['motors_options']['cylinders'][$cylinders])){
             $cylinders = Category::$uae['motors_options']['seller'][$cylinders];
         }
-        if(in_array($transmission, Category::$uae['motors_options']['transmission'])){
+        if(isset(Category::$uae['motors_options']['transmission'][$transmission])){
             $transmission = Category::$uae['motors_options']['transmission'][$transmission];
         }
 
