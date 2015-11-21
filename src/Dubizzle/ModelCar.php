@@ -3,10 +3,31 @@
 namespace Dubizzle;
 use PHPHtmlParser\Dom;
 use HTMLPurifier;
+use Curl\MultiCurl;
 require_once 'lib/util.php';
 
 class ModelCar{
     
+    public $url;
+    
+    public static function multiple_fetch(array $urls){
+        $pages = [];
+        $multi_curl = new MultiCurl();
+        $multi_curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
+        $multi_curl->setOpt(CURLOPT_FOLLOWLOCATION, 1);
+        $multi_curl->setOpt(CURLOPT_TIMEOUT, 0);
+        $multi_curl->success(function($page) {
+            $dcar = new static();
+            $dcar->url = $page->url;
+            $dcar->parse_page($page->response);
+            array_push($pages, $page);
+        });
+        foreach($urls as $url){
+            $multi_curl->addGet($url);
+        }
+        $multi_curl->start();
+        return $pages;
+    }
     
     public function fetch_page($url){
         $this->url = $url;
