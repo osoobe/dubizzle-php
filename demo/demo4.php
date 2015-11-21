@@ -1,5 +1,6 @@
 <?php
-
+ini_set('display_errors',1);
+ini_set('html_errors',1);
 require_once "../vendor/autoload.php";
 
 use Dubizzle\Search;
@@ -9,20 +10,26 @@ $params = array(
 "city" => 'all',
 "section" => 'motors',
 "category" => 'cars',
-"make" => 'chevrolet',
-"model" => '1239', //Corvette
-"body_type"=>'347', //Coupe
-"min_year" => '2011',
-"max_year" => '2011',
-"num_results" => '100',
-"added_days"=>'');
+"make" => 'toyota',
+"model" => '1588',  //Corola
+"body_type"=>'348',  //Sedan
+"min_year" => '2007',
+"max_year" => '2007',
+"num_results" => 'all',
+"added_days"=>'all');
+
 
 $uae = new Search($params, 50);
-echo $uae->query_url();
-echo "<br/><br/>";
 $query = $uae->search();
 $query->fetch();
 $results = $query->get_results();
+$result_count = count($results);
+echo "URL:            ".$uae->query_url();
+echo "<br/>";
+echo "Num. per page:  ".$uae->num_results_on_page;
+echo "<br/>";
+echo "Num. Results:   ".$result_count;
+echo "<br/>";
 foreach($results as $item){
     ?>
     <p>

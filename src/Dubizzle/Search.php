@@ -104,7 +104,8 @@ class Search{
             'Description' => 'https://github.com/Cyph0n/dubizzle'
         ];
         $curl = curl_query(Category::$uae['base_url'], $this->params, $headers);
-        return new Results($curl->response, $this->num_results, $this->query_url(), true);
+        $result_url = get_curl_response_url($curl->requestHeaders);
+        return new Results($curl->response, $this->num_results, $result_url, true);
     }
 
 }

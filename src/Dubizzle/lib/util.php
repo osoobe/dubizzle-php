@@ -40,5 +40,14 @@ function curl_query($url, array $params=[], array $headers=[]){
     return $curl;
 }
 
+function get_curl_response_url($request_header){
+    $request_line = explode(" ", $request_header->offsetGet("Request-Line"))[1];
+    if(empty($request_line)){
+        return "";
+    }
+    $base_url = $request_header->offsetGet("Host");
+    return (strpos($base_url, 'https') !== false)? $base_url.$request_line : "https://$base_url".$request_line;
+}
+
 
 ?>

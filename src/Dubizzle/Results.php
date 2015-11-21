@@ -11,6 +11,7 @@ class Results{
     private $results = [];
     private $total_results = 0;
     private $num_pages = 0;
+    public $num_results_on_page = 0;
 
     /**
      * Parse the search result and build an array of the result.
@@ -51,9 +52,15 @@ class Results{
         # Get result items from the HTML.
         $items = $dom->find(".listing-item");
         if(empty($items)){
-            return [];
+            $results = [];
+        }else{
+            $results = static::parse_items($items);
         }
-        return $items;
+        $featured_items = $dom->find(".featured-item");
+        if(!empty($featured_items)){
+            $results = array_merge($results, static::parse_items($featured_items));
+        }
+        return $results;
     }
 
     /**
@@ -143,7 +150,7 @@ class Results{
             return [];
         }
 
-        $num_results_on_page = count($items);
+        $this->num_results_on_page = count($items);
 
 
         # Get the total number of pages.
@@ -166,12 +173,12 @@ class Results{
         }
 
         # Make sure num_results is less than total results
-        $this->total_results = $num_results_on_page * $this->num_pages;
+        $this->total_results = $this->num_results_on_page * $this->num_pages;
         if($this->num_results > $this->total_results || $this->num_results == "all"){
             $this->num_results = $this->total_results;
         }
-        if($num_results_on_page > 0){
-            $page_needed = intval($this->num_results / $num_results_on_page );
+        if($this->num_results_on_page > 0){
+            $page_needed = intval($this->num_results / $this->num_results_on_page );
         }else{
             $page_needed = 0;
         }
@@ -202,8 +209,7 @@ class Results{
         $multi_curl->setOpt(CURLOPT_FOLLOWLOCATION, 1);
         $multi_curl->setOpt(CURLOPT_TIMEOUT, 0);
         $multi_curl->success(function($page) {
-            $items = static::get_more_results($page->response);
-            $results = static::parse_items($items);
+            $results = static::get_more_results($page->response);
             $this->results = array_merge($this->results, $results);
         });
         foreach($page_urls as $page_url){
