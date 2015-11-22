@@ -9,24 +9,26 @@ require_once 'lib/util.php';
 class ModelCar{
     
     public $url;
+    public $data = array();
+    
+    private static $model_cars = array();
     
     public static function multiple_fetch(array $urls){
-        $pages = [];
         $multi_curl = new MultiCurl();
         $multi_curl->setOpt(CURLOPT_SSL_VERIFYPEER, false);
         $multi_curl->setOpt(CURLOPT_FOLLOWLOCATION, 1);
         $multi_curl->setOpt(CURLOPT_TIMEOUT, 0);
         $multi_curl->success(function($page) {
-            $dcar = new static();
+            $dcar = new self();
             $dcar->url = $page->url;
             $dcar->parse_page($page->response);
-            array_push($pages, $page);
+            array_push(self::$model_cars, $dcar);
         });
         foreach($urls as $url){
             $multi_curl->addGet($url);
         }
         $multi_curl->start();
-        return $pages;
+        return self::$model_cars;
     }
     
     public function fetch_page($url){
@@ -63,6 +65,7 @@ class ModelCar{
         foreach($li_s as $li){
             $col = str_replace(" ", "_", strtolower(trim($li->find("span")->text)));
             $this->$col = trim($li->find("strong")->text);
+            $this->data[$col] = trim($li->find("strong")->text);
         }
     }
     
@@ -81,6 +84,28 @@ class ModelCar{
             return $this->$name;
         }
         return null;
+    }
+
+    /**
+    * Get values of the object
+    *
+    * @return mixed, value that is stored in a class variable
+    */
+    public function get_attr($name) {
+        if(isset($this->data[$name])){
+            return $this->data[$name];
+        }
+        return null;
+    }
+
+    /**
+    * Set a new class variable for the current object
+    *
+    * @param string $name, name of the class variable to be set
+    * @param string $value, value to be set to the new class variable
+    */
+    public function __set($name, $value) {
+        $this->{$name} = $value;
     }
 }
 
